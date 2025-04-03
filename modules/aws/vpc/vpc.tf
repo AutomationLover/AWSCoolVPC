@@ -6,14 +6,14 @@ resource "aws_vpc" "vpc" {
     Name = "${var.name_tag_prefix}-vpc"
   }))
 }
-# resource "aws_vpc_ipv4_cidr_block_association" "ctrl_plan_cidr" {
-#   vpc_id     = aws_vpc.vpc.id
-#   cidr_block = var.ctrl_plan_cidr
-# }
-# resource "aws_vpc_ipv4_cidr_block_association" "public_cidr" {
-#   vpc_id     = aws_vpc.vpc.id
-#   cidr_block = var.vpc_cidr_for_public_subnet
-# }
+resource "aws_vpc_ipv4_cidr_block_association" "ctrl_plan_cidr" {
+  vpc_id     = aws_vpc.vpc.id
+  cidr_block = var.ctrl_plan_cidr
+}
+resource "aws_vpc_ipv4_cidr_block_association" "public_cidr" {
+  vpc_id     = aws_vpc.vpc.id
+  cidr_block = var.vpc_cidr_for_public_subnet
+}
 
 resource "aws_internet_gateway" "vpc_igw" {
   vpc_id     = aws_vpc.vpc.id

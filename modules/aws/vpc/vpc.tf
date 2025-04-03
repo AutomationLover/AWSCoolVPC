@@ -26,10 +26,6 @@ resource "aws_internet_gateway" "vpc_igw" {
 
 resource "aws_route_table" "vpc_public_route_table" {
   vpc_id                    = aws_vpc.vpc.id
-  route {
-    cidr_block     = "0.0.0.0/0"
-    gateway_id     = aws_internet_gateway.vpc_igw.id
-  }
   tags = merge(var.resource_common_tags, tomap({
     environment = var.environment,
     Name = "${var.name_tag_prefix}-vpc-rt-public"

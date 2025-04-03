@@ -29,15 +29,18 @@ resource "aws_nat_gateway" "nat" {
 
 resource "aws_route_table" "az_private_route_table" {
   vpc_id = var.vpc_id
-  route {
-    cidr_block     = "0.0.0.0/0"
-    gateway_id     = aws_nat_gateway.nat.id
-  }
   tags = merge(var.resource_common_tags, tomap({
     environment = var.environment,
     Name = "${var.name_tag_prefix}-vpc-rt-az-${var.az_id}"
   }))
 }
+
+resource "aws_route" "az-priate-route-table-default-route" {
+  route_table_id          = aws_route_table.az_private_route_table.id
+  gateway_id              = aws_nat_gateway.nat.id
+  destination_cidr_block  = "0.0.0.0/0"
+}
+
 
 resource "aws_route_table_association" "public_subnet_association" {
   subnet_id      = aws_subnet.public_subnet.id
